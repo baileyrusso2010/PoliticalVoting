@@ -33,9 +33,9 @@ function(Location, Map, MapView,FeatureLayer) {
         popupTemplate: popupTrailheads
     });//end of feature layer
 
-    map.zoom = FeatureLayer.zoom;
+    //map.zoom = FeatureLayer.zoom;
     //view.zoom = 10;O
-    
+  
     map.add(FeatureLayer,0);
 
 });//end of require
