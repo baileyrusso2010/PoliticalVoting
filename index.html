@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Political Data</title>
+    <link rel="shortcut icon" type="image/x-icon" href="flag.png">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.12/"></script>
+    <script src="Testingone.js"></script>
+
+  <style>
+
+    .slidecontainer{
+        position: relative;
+        float: right;
+        padding-right: 20px;
+        padding-top: 20px;
+        z-index: 1;
+    }
+
+    html,
+    body,
+    #viewDiv {
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        left: 0px;
+        height: 100%;
+        width: 100%;
+    }
+    #sceneDiv {
+        position: relative;
+        padding: 0;
+        margin: 0;
+        left: 500px;
+        height: 500px;
+        width: 100%;
+    }
+    /*Cant scroll horizontally*/
+    html,body{
+        max-width: 100%;    
+        overflow-x: hidden; 
+        overflow-y:hidden;  
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+            <p>Value: <span id="demo"></span></p>
+            </div>
+              
+    <div id="viewDiv"></div>
+
+    <div id = "sceneDiv"></div>
+
+    <script>
+        
+//         var slider = document.getElementById("myRange");
+// var output = document.getElementById("demo");
+// output.innerHTML = slider.value;
+
+// slider.oninput = function() {
+//   output.innerHTML = this.value;
+// }
+
+    </script>
+    
+</body>
+
+</html>
