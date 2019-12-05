@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <meta charset="utf-8"/>
     <title>Political Data</title>
     <link rel="shortcut icon" type="image/x-icon" href="flag.png">
     <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.12/"></script>
-    <script src="Testingone.js"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.30/esri/css/esri.css">
 
-  <style>
+    
+    <style>
 
     .slidecontainer{
         position: relative;
@@ -41,32 +43,31 @@
         overflow-x: hidden; 
         overflow-y:hidden;  
     }
+ 
+
+
+ 
     </style>
 
 </head>
 
 <body>
-
-    <div class="slidecontainer">
+    
+    <!---
+        <div class="slidecontainer">
             <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
             <p>Value: <span id="demo"></span></p>
-            </div>
-              
+        </div>
+    -->     
+
+
+    <div id="search"></div>
     <div id="viewDiv"></div>
-
+    
+<!---
     <div id = "sceneDiv"></div>
-
-    <script>
-        
-//         var slider = document.getElementById("myRange");
-// var output = document.getElementById("demo");
-// output.innerHTML = slider.value;
-
-// slider.oninput = function() {
-//   output.innerHTML = this.value;
-// }
-
-    </script>
+    --->
+    <script src="Testingone.js"></script>
     
 </body>
 
