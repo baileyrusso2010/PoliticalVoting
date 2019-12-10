@@ -1,5 +1,16 @@
 //"https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Boundaries_2018/FeatureServer/"
  
+/*
+Author: Bailey Russo
+Date: 12/5/2019
+
+Description: Display political data from the
+2016 presidential election with the help of
+ESRI Maps
+
+All Right Reserved
+*/
+
 var map;
 var view;
 var searchWidget;
@@ -22,7 +33,7 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
    // view.on("pointer-move", executeMouseMove);
 
     var popupTrailheads = {
-      "title": "{NAME}",
+      "title": "{NAME} County",
       "content": "Popultation: <b>{POP2010}</b> <br>Men: {MALES} <br>Females: {FEMALES}"
     }
     var FeatureLayer = new FeatureLayer({
@@ -39,7 +50,7 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
     searchWidget = new Search({
 
       view: view
-    }),;
+    }),
 
     view.ui.add(searchWidget,{
       position: "top-right",
