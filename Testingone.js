@@ -14,6 +14,7 @@ All Right Reserved
 var map;
 var view;
 var searchWidget;
+var currentURL;
 
 require(["esri/tasks/Locator", "esri/Map", "esri/views/MapView","esri/layers/FeatureLayer","esri/widgets/Search","esri/symbols/SimpleFillSymbol","esri/Color"], 
 function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
@@ -48,7 +49,6 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
     map.add(FeatureLayer,0);
 
     searchWidget = new Search({
-
       view: view
     }),
 
@@ -56,7 +56,7 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
       position: "top-right",
       index: 2
     });
- 
+    
 
     searchWidget.on("load", function(){
       
@@ -77,23 +77,48 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
 
     searchWidget.startup();
 
-    function ChangeMap(){
-      require(["esri/Map", "esri/layers/FeatureLayer"], function (Map, FeatureLayer){
-
-          //var URL_root = "https://services2.arcgis.com/RQcpPaCpMAXzUI5g/ArcGIS/rest/services/gis_web_sample_data/FeatureServer/";
-          var URL_root = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_States_Generalized/FeatureServer/";
-         //var layerURL = URL_root + layerIndex;
-          //console.log(layerURL);
-          
-          var FeatureLayer = new FeatureLayer({
-            url: URL_root
-          });
-          
-          //map.layers.add(FeatureLayer,0);
-
-          //setLayerGlobalVisibility(layerIndex, FeatureLayer);
-          });
-    }
    //window.onload = ChangeMap();
 
 });//end of require
+
+
+function ChangeMap(){
+  require(["esri/tasks/Locator", "esri/Map", "esri/views/MapView","esri/layers/FeatureLayer","esri/widgets/Search","esri/symbols/SimpleFillSymbol","esri/Color"], 
+function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
+
+      currentURL = "https://services2.arcgis.com/RQcpPaCpMAXzUI5g/ArcGIS/rest/services/gis_web_sample_data/FeatureServer/";
+      var URL_root;
+      var popupTrailheads;
+
+      if(view.zoom >= 6){
+
+      URL_root = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_States_Generalized/FeatureServer/";
+
+      popupTrailheads = {
+        "title": "{STATE_NAME} County",
+        "content": "Popultation: <b>{POP2010}</b> <br>Men: {MALES} <br>Females: {FEMALES}"
+      }
+
+      }else{
+        URL_root = "https://services2.arcgis.com/RQcpPaCpMAXzUI5g/ArcGIS/rest/services/gis_web_sample_data/FeatureServer/";
+
+        popupTrailheads = {
+          "title": "{NAME} County",
+          "content": "Popultation: <b>{POP2010}</b> <br>Men: {MALES} <br>Females: {FEMALES}"
+        }
+
+      }
+
+      var FeatureLayer = new FeatureLayer({
+        url: URL_root,
+        outFields: ["STATE_NAME"],
+        popupTemplate: popupTrailheads
+      });
+
+      map.removeAll();
+
+      map.layers.add(FeatureLayer,1);
+    
+      //setLayerGlobalVisibility(1, FeatureLayer);
+      });
+}//end of ChangeMap
