@@ -33,7 +33,7 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
 
     var popupTrailheads = {
       title: "{NAME}",//title is state
-      content: "<b>{WINNER}</b> <br> Trump: {VOTE_TR} <br> Clinton: {VOTE_CL}"
+      content: "<b>Winner: {WINNER} by: {MARGIN_PCT}%</b> <br> Trump: {VOTE_TR} <br> Clinton: {VOTE_CL}"
       
     }//end of popupTrails
 
@@ -43,7 +43,6 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
         //url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_States_Generalized/FeatureServer/",
         //url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer",
         url: "https://services1.arcgis.com/VAI453sU9tG9rSmh/arcgis/rest/services/Maps101_Election_Center_2016_features/FeatureServer/2",
-
         popupTemplate: popupTrailheads
     });//end of feature layer
 
@@ -82,6 +81,8 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
 });//end of require
 
 
+
+
 function ChangeMap(){
   require(["esri/tasks/Locator", "esri/Map", "esri/views/MapView","esri/layers/FeatureLayer","esri/widgets/Search","esri/symbols/SimpleFillSymbol","esri/Color"], 
 function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
@@ -90,7 +91,11 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
       var URL_root;
       var popupTrailheads;
 
-      if(view.zoom >= 6){
+      let checked = document.getElementById("toggle").checked;
+
+      if(checked == true){
+
+      document.getElementById("toggleText").innerHTML = "Counties";
 
       URL_root = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_States_Generalized/FeatureServer/";
 
@@ -100,8 +105,10 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
       }
 
       }else{
-        URL_root = "https://services2.arcgis.com/RQcpPaCpMAXzUI5g/ArcGIS/rest/services/gis_web_sample_data/FeatureServer/";
-
+        document.getElementById("toggleText").innerHTML = "States";
+     
+        URL_root = "https://services1.arcgis.com/VAI453sU9tG9rSmh/arcgis/rest/services/Maps101_Election_Center_2016_features/FeatureServer/2";
+   
         popupTrailheads = {
           "title": "{NAME} County",
           "content": "Popultation: <b>{POP2010}</b> <br>Men: {MALES} <br>Females: {FEMALES}"

@@ -55,7 +55,30 @@
         opacity: 85%;
 
     }
- 
+
+    #sideNavBar a{
+        position: absolute;
+        left: -80px;
+        transition: 0.3s;
+        padding: 15px;
+        width: 100px;
+        height: 400px;
+        text-decoration: none;
+        font-size: 20px;
+        color: white;
+        border-radius: 0 5px 5px 0;
+        z-index: 1;
+    }
+
+    #sideNavBar a:hover{
+        left: 0;
+    }
+
+    #project{
+        top: 140px;
+        background-color: #3873f2;
+    }
+
     </style>
 
 </head>
@@ -67,12 +90,23 @@
             <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
             <p>Value: <span id="demo"></span></p>
         </div>
-    -->     
+ 
+ https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sidenav_buttons
+   -->     
+
+    <button onclick="ChangeMap()">Change Layers</button>
+    <input type = "checkbox" id = "toggle">
+    <label for="toggle" id = "toggleText">Change To Counties</label>
 
 
-    <button onclick="ChangeMap()">Change Icons</button>
     <div id="search"></div>
     <div id="viewDiv"></div>
+    <div id="sideNavBar" class="sidenav">
+        <a href="#" id="project">About</a>
+
+      </div>
+ 
+
     <div class = "footer"><p>Copyright ©2019. <b>mappingpolitics.com</b>, All Rights Reserved</p></div>
 <!---
     <div id = "sceneDiv"></div>
