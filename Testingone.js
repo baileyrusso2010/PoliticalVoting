@@ -58,6 +58,15 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
       position: "top-right",
       index: 2
     });
+
+    view.on("click", function(){
+      
+      var data = showCaseStats();
+      document.getElementById("project").innerHTML= data; 
+      document.getElementById("project").style.backgroundColor = "Red"; 
+      document.getElementById("project").style.textAlign = "center"; 
+      
+    });
     
     //on load push fields
     searchWidget.on("load", function(){
@@ -80,8 +89,16 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
 
 });//end of require
 
+function showCaseStats(){
+
+  var innerText = view.popup.domNode.innerText;
+  console.log(innerText[3]);
+  innerText = innerText.split('\n')[0];
 
 
+  return "<b>"+ innerText + "</b>"; 
+
+}//end of showCaseStats
 
 function ChangeMap(){
   require(["esri/tasks/Locator", "esri/Map", "esri/views/MapView","esri/layers/FeatureLayer","esri/widgets/Search","esri/symbols/SimpleFillSymbol","esri/Color"], 
