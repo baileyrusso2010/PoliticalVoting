@@ -63,7 +63,6 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
       
       var data = showCaseStats();
       document.getElementById("project").innerHTML= data; 
-      document.getElementById("project").style.backgroundColor = "Red"; 
       document.getElementById("project").style.textAlign = "center"; 
       
     });
@@ -92,9 +91,18 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
 function showCaseStats(){
 
   var innerText = view.popup.domNode.innerText;
-  console.log(innerText[3]);
-  innerText = innerText.split('\n')[0];
+  console.log(innerText);
+  let state = innerText.split('\n')[0];
 
+  let winner = innerText.split('\n')[1];
+  winner = String(winner);
+
+  if(winner.charAt(8) == 'T'){
+    document.getElementById("project").style.backgroundColor = "Red";
+  }else{
+    document.getElementById("project").style.backgroundColor = "Blue";
+
+  }
 
   return "<b>"+ innerText + "</b>"; 
 
