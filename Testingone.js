@@ -14,8 +14,9 @@ All Right Reserved
 var map;//global map
 var view;//
 var searchWidget;
-var currentURL;
 var FeatureLayer;
+var URL_root;
+
 
 //required fields to complete the necessary tasks
 require(["esri/tasks/Locator", "esri/Map", "esri/views/MapView","esri/layers/FeatureLayer","esri/widgets/Search","esri/symbols/SimpleFillSymbol","esri/Color"], 
@@ -33,16 +34,12 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
 
     var popupTrailheads = {
       title: "{NAME}",//title is state
-      content: "<b>Winner: {WINNER} by: {MARGIN_PCT}%</b> <br> Trump: {VOTE_TR} <br> Clinton: {VOTE_CL}"
+      content: "<b>Winner: {WINNER} - {MARGIN_PCT}%</b> <br> Trump: {VOTE_TR} <br> Clinton: {VOTE_CL}"
       
     }//end of popupTrails
 
-//https://developers.arcgis.com/javascript/latest/sample-code/popuptemplate-function/index.html
-//https://www.arcgis.com/home/webmap/viewer.html?layers=66e3efa3bd0f4b5496228a4328930c89
     FeatureLayer = new FeatureLayer({
-        //url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_States_Generalized/FeatureServer/",
-        //url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer",
-        url: "https://services1.arcgis.com/VAI453sU9tG9rSmh/arcgis/rest/services/Maps101_Election_Center_2016_features/FeatureServer/2",
+       url: "https://services1.arcgis.com/VAI453sU9tG9rSmh/arcgis/rest/services/Maps101_Election_Center_2016_features/FeatureServer/2",
         popupTemplate: popupTrailheads
     });//end of feature layer
 
@@ -85,35 +82,80 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
     });
 
     searchWidget.startup();//sets up searchwidget
+    URL_root = "https://services1.arcgis.com/VAI453sU9tG9rSmh/arcgis/rest/services/Maps101_Election_Center_2016_features/FeatureServer/2";
+
 
 });//end of require
 
 function showCaseStats(){
 
-  var innerText = view.popup.domNode.innerText;
-  console.log(innerText);
-  let state = innerText.split('\n')[0];
+  //gets the text
+  let innerText = view.popup.domNode.innerText;
+  
+  if(URL_root == "https://services1.arcgis.com/VAI453sU9tG9rSmh/arcgis/rest/services/Maps101_Election_Center_2016_features/FeatureServer/2"){
+    let state = innerText.split('\n')[0];//state text
 
-  let winner = innerText.split('\n')[1];
-  winner = String(winner);
+    let winner = innerText.split('\n')[1];//who won?
+    winner = String(winner);//cast to string
 
-  if(winner.charAt(8) == 'T'){
-    document.getElementById("project").style.backgroundColor = "Red";
-  }else{
-    document.getElementById("project").style.backgroundColor = "Blue";
+    //If trump display red else its Clinton display Blue
+    if(winner.charAt(8) == 'T'){
+      document.getElementById("project").style.backgroundColor = "#FF0000";
+    }else{
+      document.getElementById("project").style.backgroundColor = "#3366FF";
+    }
+    
+    let trump1 = innerText.split('\n')[2];//won by how much
+    
+    //total votes
+    let clinton1 = innerText.split('\n')[3];
 
-  }
+    //formating
+    return "<b>"+ state + "</b><br><br>"+winner+"<br><br>"+ trump1 + "<br>" + clinton1; 
+    
+   }else{
 
-  return "<b>"+ innerText + "</b>"; 
+    let winner;
+    let county = innerText.split('\n')[0];
+    let rep = innerText.split('\n')[2];
+    let dem = innerText.split('\n')[3];
+    
+    //converts data to string to int for comparison
+    let rep1 = "" + rep;
+    let rep2 = rep1.split(' ')[1];
+    let rep3 = "" + rep2;
+    let rep4 = rep3.split(',');
+    let repout = rep4[0]+rep4[1];
+    let repConvert = parseInt(repout);
 
+    //converts data to string to int for comparison
+    let dem1 = "" + dem;
+    let dem2 = dem1.split(' ')[1];
+    let dem3 = "" + dem2;
+    let dem4 = dem3.split(',');
+    let demout = dem4[0]+dem4[1];
+    let demConver = parseInt(demout);
+    
+    //if more repvotes then demVotes
+    if(repConvert > demConver){
+      winner = "Clinton";
+      document.getElementById("project").style.backgroundColor = "#3366FF";
+    }else{
+      winner = "Trump";
+      document.getElementById("project").style.backgroundColor = "#FF0000";
+    }
+
+
+    return "<b>" +county+"</b><br><br>" +"Winner: "+ winner + "<br><br>" +  rep + "<br>"+ dem;
+   }
+   
+    
 }//end of showCaseStats
 
 function ChangeMap(){
   require(["esri/tasks/Locator", "esri/Map", "esri/views/MapView","esri/layers/FeatureLayer","esri/widgets/Search","esri/symbols/SimpleFillSymbol","esri/Color"], 
 function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
 
-      currentURL = "https://services2.arcgis.com/RQcpPaCpMAXzUI5g/ArcGIS/rest/services/gis_web_sample_data/FeatureServer/";
-      var URL_root;
       var popupTrailheads;
 
       let checked = document.getElementById("toggle").checked;
@@ -122,11 +164,11 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
 
       document.getElementById("toggleText").innerHTML = "Counties";
 
-      URL_root = "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_States_Generalized/FeatureServer/";
+      URL_root = "https://services.arcgis.com/hRUr1F8lE8Jq2uJo/arcgis/rest/services/Presidential_Election_County_2016/FeatureServer"
 
       popupTrailheads = {
-        "title": "{STATE_NAME} County",
-        "content": "Popultation: <b>{POP2010}</b> <br>Men: {MALES} <br>Females: {FEMALES}"
+        "title": "{county_name}",
+        "content": "Popultation: <b>{POP2010}</b> <br>Democrat: {votes_dem} <br>Repubicans: {votes_gop}"
       }
 
       }else{
@@ -134,10 +176,10 @@ function(Location, Map, MapView,FeatureLayer, Search,SimpleFillSymbol, Color) {
      
         URL_root = "https://services1.arcgis.com/VAI453sU9tG9rSmh/arcgis/rest/services/Maps101_Election_Center_2016_features/FeatureServer/2";
    
-        popupTrailheads = {
-          "title": "{NAME} County",
-          "content": "Popultation: <b>{POP2010}</b> <br>Men: {MALES} <br>Females: {FEMALES}"
-        }
+        var popupTrailheads = {
+          title: "{NAME}",//title is state
+          content: "<b>Winner: {WINNER} - {MARGIN_PCT}%</b> <br> Trump: {VOTE_TR} <br> Clinton: {VOTE_CL}"
+          }
 
       }//end of ifelse
 
